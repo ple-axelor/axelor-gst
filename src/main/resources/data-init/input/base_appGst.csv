@@ -1,0 +1,2 @@
+"name";"code";"installOrder";"description";"imagePath";"modules";"dependsOn";"sequence"
+"Gst";"gst";33;"Gst Management";"app-quality.png";"axelor-gst";"base";32

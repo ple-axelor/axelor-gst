@@ -1,0 +1,16 @@
+apply plugin: "com.axelor.app-module"
+
+apply from: "../version.gradle"
+
+apply {
+	version = absVersion
+}
+
+axelor {
+	title "Axelor Gst Application"
+	description "Axelor Gst Application Module"
+}
+
+dependencies {
+	compile project(":modules:axelor-base")
+}
