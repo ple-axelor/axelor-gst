@@ -160,35 +160,35 @@
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<view type="kanban" name="invoice-kanban" />
-	</action-view>
+	</action-view> -->
 
 	<menuitem title="Comapny" name="gst-root-company" parent="gst-root" />
 
-	<menuitem title="Company" name="gst-root-company-company"
+	<!-- <menuitem title="Company" name="gst-root-company-company"
 		parent="gst-root-company" action="gst.root.company.company" />
 
 	<action-view name="gst.root.company.company" title="Company"
 		model="com.axelor.gst.db.Company">
 		<view type="grid" name="company-grid" />
 		<view type="form" name="company-form" />
-	</action-view>
+	</action-view> -->
 
 	<menuitem title="Bank Account" name="gst-root-company-bank-account"
 		parent="gst-root-company" action="gst.root.company.bank.account" />
 
 	<action-view name="gst.root.company.bank.account" title="Bank Account"
-		model="com.axelor.gst.db.BankAccount">
-		<view type="grid" name="bank-account-grid" />
-		<view type="form" name="bank-account-form" />
+		model="com.axelor.apps.base.db.BankDetails">
+		<view type="grid" name="bank-details-grid" />
+		<view type="form" name="bank-details-form" />
 	</action-view>
 
-	<menuitem title="Sequence" name="gst-root-company-sequence"
+	<!-- <menuitem title="Sequence" name="gst-root-company-sequence"
 		parent="gst-root-company" action="gst.root.company.sequence" />
 
 	<action-view name="gst.root.company.sequence" title="Sequence"
 		model="com.axelor.gst.db.Sequence">
 		<view type="grid" name="sequence-grid" />
 		<view type="form" name="sequence-form" />
-	</action-view> -->
+	</action-view>  -->
 
 </object-views>

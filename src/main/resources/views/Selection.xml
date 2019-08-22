@@ -16,4 +16,9 @@
 		<option value="secondary">Secondary</option>
 		<option value="others">Others</option>
 	</selection>
+	
+	<selection name="bankAccount.type.selection">
+		<option value="current">Current</option>
+		<option value="saving">Saving</option>
+	</selection>
 	</object-views>

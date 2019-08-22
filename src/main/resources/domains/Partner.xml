@@ -6,7 +6,7 @@
 	<module name="base" package="com.axelor.apps.base.db"/>
 
   	<entity name="Partner" lang="java">
-  		<string name="typeSelect" selection="contact.type.selection" required="true" title="Type"/>
+  		<string name="typeSelect" selection="contact.type.selection" title="Type"/>
   		<string name="secondaryEmail" title="Secondary Email" />
   		<string name="secondaryPhone" title="Secondary Phone" />
   	  </entity>
