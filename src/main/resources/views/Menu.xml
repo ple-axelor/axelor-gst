@@ -17,16 +17,16 @@
 
 	<menuitem title="Party" name="gst-root-party" parent="gst-root" />
 
-<!-- 	<menuitem title="Party" name="gst-root-party-party" parent="gst-root-party"
+	<menuitem title="Party" name="gst-root-party-party" parent="gst-root-party"
 		action="gst.root.party.party" />
 
 	<action-view name="gst.root.party.party" title="Party"
-		model="com.axelor.gst.db.Party">
-		<view type="grid" name="party-grid" />
-		<view type="form" name="party-form" />
-		<view type="cards" name="party-card" />
-		<context name="json-enhance" expr="true" />
-	</action-view> -->
+		model="com.axelor.apps.base.db.Partner">
+		<view type="grid" name="partner-grid" />
+		<view type="form" name="partner-form" />
+		<!-- <view type="cards" name="party-card" /> -->
+		<!-- <context name="json-enhance" expr="true" /> -->
+	</action-view>
 
 	<menuitem title="Contact" name="gst-root-party-contact"
 		parent="gst-root-party" action="gst.root.party.contact" />
@@ -76,29 +76,29 @@
 		<view type="form" name="country-form" />
 	</action-view>
 
-	<!-- <menuitem title="Product" name="gst-root-product" parent="gst-root" />
+	 <menuitem title="Product" name="gst-root-product" parent="gst-root" />
 
 	<menuitem title="Product" name="gst-root-product-product"
 		parent="gst-root-product" action="gst.root.product.product" />
 
 	<action-view name="gst.root.product.product" title="Product"
-		model="com.axelor.gst.db.Product">
+		model="com.axelor.apps.base.db.Product">
 		<view type="grid" name="product-grid" />
 		<view type="form" name="product-form" />
-		<view type="cards" name="product-card" />
-		<context name="json-enhance" expr="true" />
+		<!-- <view type="cards" name="product-card" />
+		<context name="json-enhance" expr="true" /> -->
 	</action-view>
 
 	<menuitem title="Product Categories" name="gst-root-product-product-categories"
 		parent="gst-root-product" action="gst.root.product.product.categories" />
 
 	<action-view name="gst.root.product.product.categories"
-		title="Product" model="com.axelor.gst.db.ProductCategory">
+		title="Product" model="com.axelor.apps.base.db.ProductCategory">
 		<view type="grid" name="product-category-grid" />
 		<view type="form" name="product-category-form" />
 	</action-view>
 
-	<menuitem title="Invoice" name="gst-root-invoice" parent="gst-root" />
+	<!-- <menuitem title="Invoice" name="gst-root-invoice" parent="gst-root" />
 
 	<menuitem title="Create Invoice" name="gst-root-invoice-create-invoice"
 		parent="gst-root-invoice" action="gst.root.invoice.create.invoice" />
@@ -164,14 +164,14 @@
 
 	<menuitem title="Comapny" name="gst-root-company" parent="gst-root" />
 
-	<!-- <menuitem title="Company" name="gst-root-company-company"
+	<menuitem title="Company" name="gst-root-company-company"
 		parent="gst-root-company" action="gst.root.company.company" />
 
 	<action-view name="gst.root.company.company" title="Company"
-		model="com.axelor.gst.db.Company">
-		<view type="grid" name="company-grid" />
-		<view type="form" name="company-form" />
-	</action-view> -->
+		model="com.axelor.apps.base.db.Partner">
+		<view type="grid" name="partner-grid" />
+		<view type="form" name="partner-form" />
+	</action-view>
 
 	<menuitem title="Bank Account" name="gst-root-company-bank-account"
 		parent="gst-root-company" action="gst.root.company.bank.account" />

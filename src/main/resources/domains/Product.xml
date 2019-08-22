@@ -5,12 +5,9 @@
 
 	<module name="base" package="com.axelor.apps.base.db"/>
 
-  	<entity name="Partner" lang="java">
-  		<string name="typeSelect" selection="contact.type.selection" title="Type"/>
-  		<string name="secondaryEmail" title="Secondary Email" />
-  		<string name="secondaryPhone" title="Secondary Phone" />
-  		
-  		<string name="gstIn" min="15" max="15" title="GST IN" />
+  	<entity name="Product" lang="java">
+  		<string name="hsbn" title="HSBN" />
+  		<decimal name="gstRate" title="GST Rate" />
   	  </entity>
 
 </domain-models>
