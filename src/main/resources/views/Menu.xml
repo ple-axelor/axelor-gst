@@ -118,8 +118,8 @@
 		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.status= :status</domain>
-		<context name="status" expr="draft" />
+		<domain>self.statusSelect= :status</domain>
+  		<context name="status" expr="1"/>
 	</action-view>
 
 	<menuitem title="Validated Invoices" name="gst-root-invoice-validated-invoices"
@@ -129,8 +129,8 @@
 		title="Validated Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.status= :status</domain>
-		<context name="status" expr="validated" />
+		<domain>self.statusSelect= :status</domain>
+  <context name="status" expr="2"/>
 	</action-view>
 
 	<menuitem title="Paid Invoices" name="gst-root-invoice-paid-invoices"
@@ -140,8 +140,8 @@
 		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.status= :status</domain>
-		<context name="status" expr="paid" />
+		<domain>self.statusSelect= :status</domain>
+  		<context name="status" expr="3"/>
 	</action-view>
 
 	<menuitem title="Cancelled Invoices" name="gst-root-invoice-cancelled-invoices"
@@ -151,8 +151,8 @@
 		title="cancelled Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.status= :status</domain>
-		<context name="status" expr="cancelled" />
+		<domain>self.statusSelect= :status</domain>
+  <context name="status" expr="4"/>
 	</action-view>
 
 	<menuitem title="All Invoices" name="gst-root-invoice-all-invoices"
