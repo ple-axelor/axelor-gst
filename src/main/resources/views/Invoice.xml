@@ -244,12 +244,6 @@ InvoiceSet.length > 0))"
 		         <dl class="dl-horizontal">
 		           <dt x-translate>Total W.T.</dt>
 		           <dd>{{record.exTaxTotal}} {{record.currency.symbol}}</dd>
-		           <dt x-translate>Igst</dt>
-		           <dd>{{record.netIgst}} {{record.currency.symbol}}</dd>
-		           <dt x-translate>Cgst</dt>
-		           <dd>{{record.netCgst}} {{record.currency.symbol}}</dd>
-		           <dt x-translate>Sgst</dt>
-		           <dd>{{record.netSgst}} {{record.currency.symbol}}</dd>
 		           <dt x-translate>Total tax</dt>
 		           <dd>{{record.taxTotal}} {{record.currency.symbol}}</dd>
 		           <dt class="order-subtotal-total" x-translate>Total A.T.I.</dt>
@@ -289,6 +283,11 @@ InvoiceSet.length > 0))"
 		         </dl>]]>
 				</viewer>
 			</field>
+		</panel>
+		<panel sidebar="true" name="gstDetails" title="Gst Tax" itemSpan="6" hideIf="partner == null">
+			<field name="netIgst"/>
+			<field name="netCgst"/>
+			<field name="netSgst"/>
 		</panel>
 		<panel name="totalsCompanyCurrencyPanel" title="Totals company currency" itemSpan="6" sidebar="true" hideIf="partner == null || company == null || currency == null || company.currency.code == currency.code">
 			<field name="company.currency.code" hidden="true"/>
