@@ -6,7 +6,7 @@
 	<module name="base" package="com.axelor.apps.base.db"/>
 
   	<entity name="Address" lang="java">
-  		<string name="typeSelect" selection="address.type.selection" required="true" title="Type"/>
+  		<!-- <string name="typeSelect" selection="address.type.selection" required="true" title="Type"/> -->
   		<many-to-one name="state" ref="com.axelor.apps.gst.db.State" title="State"/>
   	  </entity>
 

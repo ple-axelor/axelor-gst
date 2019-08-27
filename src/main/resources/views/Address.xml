@@ -14,7 +14,7 @@
 			<field name="zip"/>
 			<field name="city" onSelect="action-address-attrs-update-domain-city" canEdit="false" canNew="true" onChange="action-address-change-city" form-view="city-form" grid-view="city-grid"/>
 			<field name="addressL6" x-bind="{{addressL6|uppercase}}" required="true" colSpan="12"/>
-			<field name="typeSelect" />
+			<!-- <field name="typeSelect" /> -->
 			<field name="state"/>
 			<static name="addressL6Text" colSpan="12">Notice: The Zip/City field is automatically filled when the city is selected. You can change it when the Zip/City pair is missing or in case of minor change.</static>
 			<button-group name="map1BtnGroup" colSpan="6" hideIf="$popup()">

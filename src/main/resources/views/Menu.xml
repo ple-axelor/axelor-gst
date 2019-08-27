@@ -98,21 +98,24 @@
 		<view type="form" name="product-category-form" />
 	</action-view>
 
-	<!-- <menuitem title="Invoice" name="gst-root-invoice" parent="gst-root" />
+	<menuitem title="Invoice" name="gst-root-invoice" parent="gst-root" />
 
 	<menuitem title="Create Invoice" name="gst-root-invoice-create-invoice"
 		parent="gst-root-invoice" action="gst.root.invoice.create.invoice" />
 
 	<action-view name="gst.root.invoice.create.invoice" title="Create Invoice"
-		model="com.axelor.gst.db.Invoice">
+		model="com.axelor.apps.account.db.Invoice">
 		<view type="form" name="invoice-form" />
+		<domain>self.operationTypeSelect = 3</domain>
+		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="Draft Invoices" name="gst-root-invoice-draft-invoices"
 		parent="gst-root-invoice" action="gst.root.invoice.draft.invoices" />
 
 	<action-view name="gst.root.invoice.draft.invoices" title="Draft Invoices"
-		model="com.axelor.gst.db.Invoice">
+		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<domain>self.status= :status</domain>
@@ -123,7 +126,7 @@
 		parent="gst-root-invoice" action="gst.root.invoice.validated.invoices" />
 
 	<action-view name="gst.root.invoice.validated.invoices"
-		title="Validated Invoices" model="com.axelor.gst.db.Invoice">
+		title="Validated Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<domain>self.status= :status</domain>
@@ -134,7 +137,7 @@
 		parent="gst-root-invoice" action="gst.root.invoice.paid.invoices" />
 
 	<action-view name="gst.root.invoice.paid.invoices" title="paid Invoices"
-		model="com.axelor.gst.db.Invoice">
+		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<domain>self.status= :status</domain>
@@ -145,7 +148,7 @@
 		parent="gst-root-invoice" action="gst.root.invoice.cancelled.invoices" />
 
 	<action-view name="gst.root.invoice.cancelled.invoices"
-		title="cancelled Invoices" model="com.axelor.gst.db.Invoice">
+		title="cancelled Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<domain>self.status= :status</domain>
@@ -156,11 +159,11 @@
 		parent="gst-root-invoice" action="gst.root.invoice.all.invoices" />
 
 	<action-view name="gst.root.invoice.all.invoices" title="All Invoices"
-		model="com.axelor.gst.db.Invoice">
+		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<view type="kanban" name="invoice-kanban" />
-	</action-view> -->
+	</action-view>
 
 	<menuitem title="Comapny" name="gst-root-company" parent="gst-root" />
 
