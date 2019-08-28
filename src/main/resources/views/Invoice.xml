@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 	
 	<form name="invoice-form" title="Invoice" model="com.axelor.apps.account.db.Invoice"
-          onNew="action-account-invoice-onnew-group"
+          onNew="action-account-invoice-onnew-group,action-invoice-method-on-new"
           onLoad="action-account-invoice-onload-group" id="gst-invoice-form">
 
         <menubar>
@@ -984,6 +984,10 @@ InvoiceSet.length > 0))"
   		<context name="_invoice" expr="eval: __self__"/>
 	</action-view>
 	
+	<action-method name="action-invoice-method-on-new" >
+		<call class="com.axelor.apps.gst.web.InvoiceController" method="setInvoiceData"/>
+	</action-method>
+			
 	<search-filters name="customer-invoices-filters" model="com.axelor.apps.account.db.Invoice" title="Customer invoices filters">
 	    <field name="address" hidden="true"/>
 	    <field name="debitBlockingByUser" title="Debit blocking done by"/>

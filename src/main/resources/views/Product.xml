@@ -3,6 +3,31 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
+	<grid name="product-grid" title="Products" model="com.axelor.apps.base.db.Product" orderBy="code,name" x-row-height="80" id="gst-product-grid">
+   		<toolbar>
+        	<button name="catalogBtn" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
+			<button name="checkDuplicateBtn" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
+			<button name="createInvoice" icon="fa-print" onClick="action-product-view-button-create-invoice-on-click" title="Create Invoice" />
+	    </toolbar>
+	    <field name="code" x-bind="{{code|unaccent|uppercase}}" width="120"/>
+	    <field name="name" width="300"/>
+	    <field name="productCategory" form-view="product-category-form" grid-view="product-category-grid"/>
+	    <field name="productFamily" form-view="product-family-form" grid-view="product-family-grid"/>
+	    <field name="productTypeSelect" width="100"/>
+	   	<field name="salePrice" x-scale="2" />
+	    <field name="unit" width="70" form-view="unit-form" grid-view="unit-grid"/>
+	    <field name="internalDescription" widget="html" width="400" />
+	    <button name="sendByEmailBtn" title="Send Email" icon="fa-envelope" onClick="action-send-by-email-with-template"/>
+	</grid>
+    
+    <grid name="product-product-variant-grid" title="Products" model="com.axelor.apps.base.db.Product" orderBy="code,name">
+	    <field name="code" x-bind="{{code|unaccent|uppercase}}" width="120"/>
+	    <field name="name"/>
+	    <field name="productVariant" width="200"/>
+	    <field name="costPrice" width="120" x-scale="2"/>
+	    <field name="salePrice" width="120" x-scale="2"/>
+    </grid>
+
 	<form name="product-form" title="Product" model="com.axelor.apps.base.db.Product" 
 	onNew="action-group-base-product-onnew"
 	onLoad="action-group-product-onload" width="large" id="gst-product-form">
@@ -575,4 +600,15 @@
 	<action-record name="action-product-record-product-category-on-change" model="com.axelor.apps.base.db.Product">
 		<field name="gstRate" expr="eval: productCategory.getGstRate()" />
 	</action-record>
+	
+	<action-view name="action-product-view-button-create-invoice-on-click" title="Partner" model="com.axelor.apps.base.db.Wizard" >
+		<view type="form" name="wizard-partner-form"/>
+		<view-param name="popup" value="true"/>
+		<view-param name="show-toolbar" value="false"/>
+ 	  	<view-param name="show-confirm" value="false"/>
+ 	  	<view-param name="popup-save" value="false"/>
+		<context name="productIds" expr="eval: _ids"/>
+		<context name="_operationTypeSelect" expr="eval: 3"/>
+	</action-view>
+		
 </object-views>

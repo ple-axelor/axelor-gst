@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<form name="wizard-partner-form" title="Information" model="com.axelor.apps.base.db.Wizard">
+		<panel name="wizard-partner-panel" title="Partner Information">
+			<field name="partner" title="Partner" widget="SuggestBox" type="MANY_TO_ONE" target="com.axelor.apps.base.db.Partner" required="true"/>
+			<field name="company" title="Company" widget="SuggestBox" type="MANY_TO_ONE" target="com.axelor.apps.base.db.Company" required="true"/>
+			<button name="btnGenerateInvoice" onClick="action-partner-wizard-method-button-click" title="Generate Invoice"/>
+		</panel>
+	</form>
+	
+	<action-method name="action-partner-wizard-method-button-click">
+		<call class="com.axelor.apps.gst.web.PartnerWizardController" method="invoiceView"/>
+	</action-method>
+
+</object-views>
