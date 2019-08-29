@@ -22,12 +22,11 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InvoiceLineServiceImplGst extends InvoiceLineSupplychainService
-    implements com.axelor.apps.gst.service.InvoiceLineService {
+public class InvoiceLineServiceImplGst implements com.axelor.apps.gst.service.InvoiceLineService {
 
-  @Inject private InvoiceLineService invoiceLineService;
+ /* @Inject private InvoiceLineService invoiceLineService;*/
 
-  @Inject
+/*  @Inject
   public InvoiceLineServiceImplGst(
       CurrencyService currencyService,
       PriceListService priceListService,
@@ -51,10 +50,7 @@ public class InvoiceLineServiceImplGst extends InvoiceLineSupplychainService
 
     Map<String, Object> productInformation = new HashMap<>();
     productInformation.putAll(super.fillProductInformation(invoice, invoiceLine));
-
-    System.out.println("laa");
     BigDecimal gstRate = invoiceLine.getProduct().getGstRate();
-    System.out.println("huuee");
     productInformation.put("gstRate", gstRate);
     productInformation.put("hsbn", invoiceLine.getProduct().getHsbn());
     BigDecimal gstRatePercent = gstRate.divide(BigDecimal.valueOf(100));
@@ -71,19 +67,38 @@ public class InvoiceLineServiceImplGst extends InvoiceLineSupplychainService
     }
 
     return productInformation;
-  }
+  }*/
 
   @Override
-  public void computeValues(Invoice invoice, InvoiceLine invoiceLine) {
+  public InvoiceLine computeValues(Invoice invoice, InvoiceLine invoiceLine) {
 
     BigDecimal netAmount = BigDecimal.ZERO;
     BigDecimal grossAmount = BigDecimal.ZERO;
     BigDecimal igst = BigDecimal.ZERO;
     BigDecimal sgst = BigDecimal.ZERO;
     BigDecimal netAmountPercent = BigDecimal.ZERO;
-    
+        
     netAmount = invoiceLine.getPrice().multiply(invoiceLine.getQty());
     if(invoiceLine.getProduct() != null) {
+    	
+    	BigDecimal gstRate = invoiceLine.getProduct().getGstRate();
+        invoiceLine.setGstRate(gstRate);
+        String hsbn = invoiceLine.getProduct().getHsbn();
+        invoiceLine.setHsbn(hsbn);
+        
+        BigDecimal gstRatePercent = gstRate.divide(BigDecimal.valueOf(100));
+        String gstCode = "GST";
+
+        Tax tax = Beans.get(TaxRepository.class).all().filter("self.code = ?1", gstCode).fetchOne();
+        if (tax != null) {
+          TaxLine taxLine =
+              Beans.get(TaxLineRepository.class)
+                  .all()
+                  .filter("self.value = ?1 and self.tax = ?2", gstRatePercent, tax.getId())
+                  .fetchOne();
+          invoiceLine.setTaxLine(taxLine);
+        }
+    	
     	netAmountPercent =
     	        (netAmount.multiply(invoiceLine.getProduct().getGstRate())).divide(BigDecimal.valueOf(100));
     	if (!(invoice.getCompany().getAddress().getState().equals(invoice.getAddress().getState()))) {
@@ -97,10 +112,12 @@ public class InvoiceLineServiceImplGst extends InvoiceLineSupplychainService
     else {
     	invoiceLine.setGstRate(BigDecimal.ZERO);
     	invoiceLine.setHsbn(null);
+    	invoiceLine.setQty(BigDecimal.ONE);
     }
     
     invoiceLine.setIgst(igst);
     invoiceLine.setCgst(sgst);
     invoiceLine.setSgst(sgst);
+	return invoiceLine;
   }
 }

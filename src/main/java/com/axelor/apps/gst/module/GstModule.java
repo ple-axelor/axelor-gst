@@ -13,7 +13,7 @@ public class GstModule extends AxelorModule {
 
   @Override
   protected void configure() {
-    bind(InvoiceLineSupplychainService.class).to(InvoiceLineServiceImplGst.class);
+/*    bind(InvoiceLineSupplychainService.class).to(InvoiceLineServiceImplGst.class);*/
     bind(InvoiceLineService.class).to(InvoiceLineServiceImplGst.class);
     bind(InvoiceServiceProjectImpl.class).to(InvoiceServiceImplGst.class);
     bind(InvoiceService.class).to(com.axelor.apps.gst.service.InvoiceServiceImpl.class);

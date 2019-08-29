@@ -5,6 +5,7 @@ import java.util.List;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.exception.AxelorException;
+import com.axelor.rpc.ActionResponse;
 
 public interface InvoiceService {
 	
