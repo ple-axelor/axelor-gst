@@ -171,9 +171,9 @@
 		parent="gst-root-company" action="gst.root.company.company" />
 
 	<action-view name="gst.root.company.company" title="Company"
-		model="com.axelor.apps.base.db.Partner">
-		<view type="grid" name="partner-grid" />
-		<view type="form" name="partner-form" />
+		model="com.axelor.apps.base.db.Company">
+		<view type="grid" name="company-grid" />
+		<view type="form" name="company-form" />
 	</action-view>
 
 	<menuitem title="Bank Account" name="gst-root-company-bank-account"

@@ -14,7 +14,10 @@ import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.AccountManagementAccountService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.InvoiceToolService;
+import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
+import com.axelor.apps.account.service.invoice.generator.InvoiceLineGenerator;
 import com.axelor.apps.base.db.Address;
+import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PartnerAddress;
@@ -29,49 +32,81 @@ import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
-public class InvoiceServiceImpl implements InvoiceService{
-	
-	@Inject private InvoiceLineService invoiceLineService;
-	@Inject private com.axelor.apps.gst.service.InvoiceLineService service;
-	@Inject private com.axelor.apps.account.service.invoice.InvoiceService invoiceService;
-	protected AccountManagementAccountService accountManagementAccountService;
+public class InvoiceServiceImpl implements InvoiceService {
+
+	@Inject
+	private InvoiceLineService invoiceLineService;
+	@Inject
+	private com.axelor.apps.gst.service.InvoiceLineService service;
+	@Inject
+	private com.axelor.apps.account.service.invoice.InvoiceService invoiceService;
 
 	@Override
-	public Invoice setInvoiceData(Invoice invoice, List<Integer> productIdList, long partnerId, long companyId) throws AxelorException {
+	@Transactional(rollbackOn = { AxelorException.class, RuntimeException.class })
+	public Invoice setInvoiceData(Invoice invoice, List<Integer> productIdList, long partnerId, long companyId)
+			throws AxelorException {
+
 		Company company = Beans.get(CompanyRepository.class).find(companyId);
-		invoice.setCompany(company);
 		Partner partner = Beans.get(PartnerRepository.class).find(partnerId);
-		invoice.setPartner(partner);
 		Address address = Beans.get(PartnerService.class).getInvoicingAddress(partner);
-		invoice.setAddress(address);
-		String addressStr = Beans.get(AddressService.class).computeAddressStr(invoice.getAddress());
-		invoice.setAddressStr(addressStr);
 		List<InvoiceLine> invoiceLineList = new ArrayList<>();
-		FiscalPosition fiscalPosition = invoice.getPartner().getFiscalPosition();
-		boolean isPurchase = InvoiceToolService.isPurchase(invoice);
-		for (Integer productId : productIdList) {
-			Product product = Beans.get(ProductRepository.class).find((long)productId);
-			InvoiceLine invoiceLine = new InvoiceLine();
-			invoiceLine.setProduct(product);
-			invoiceLine.setProductName(product.getName());
-			invoiceLine.setQty(BigDecimal.ONE);
-			invoiceLine.setUnit(product.getUnit());
-			invoiceLine.setPrice(product.getSalePrice());
-			InvoiceLine invoiceLine2 = service.computeValues(invoice, invoiceLine);
-			invoiceLine.setExTaxTotal(product.getSalePrice());
-			/*Account account = accountManagementAccountService.getProductAccount(
-			              product, company, fiscalPosition, isPurchase, invoiceLine.getFixedAssets());*/
-			
-			System.out.println(invoiceLine.getFixedAssets());
-			/*invoiceLine.setAccount(product.getAccountManagementList().get(0).getSaleAccount());*/
-			/*System.out.println(product.getAccountManagementList().get(0).getSaleAccount());*/
-			invoiceLineList.add(invoiceLine);
+
+		Partner partnerContact = null;
+		if (partner.getContactPartnerSet() != null) {
+			for (Partner partnerContactObject : partner.getContactPartnerSet()) {
+				partnerContact = partnerContactObject;
+			}
 		}
+
+		BankDetails bankdetails = null;
+		if (company.getBankDetailsSet() != null) {
+			for (BankDetails bankDetailsObject : company.getBankDetailsSet()) {
+				bankdetails = bankDetailsObject;
+			}
+		}
+
+		InvoiceGenerator invoiceGenerator = new InvoiceGenerator(InvoiceRepository.OPERATION_TYPE_CLIENT_SALE, company,
+				partner.getPaymentCondition(), partner.getInPaymentMode(), address, partner, partnerContact,
+				company.getCurrency(), null, null, null, false, bankdetails, null) {
+
+			@Override
+			public Invoice generate() throws AxelorException {
+				return super.createInvoiceHeader();
+			}
+		};
+		invoice = invoiceGenerator.generate();
+
+		BigDecimal qty = BigDecimal.ONE;
+		BigDecimal discountAmount = BigDecimal.ZERO;
+		int discountTypeSelect = 0;
+
+		for (Integer productId : productIdList) {
+			Product product = Beans.get(ProductRepository.class).find((long) productId);
+
+			InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator(invoice, product, product.getName(),
+					product.getSalePrice(), product.getSalePrice(), product.getSalePrice(), product.getDescription(),
+					qty, product.getUnit(), null, InvoiceLineGenerator.DEFAULT_SEQUENCE, discountAmount,
+					discountTypeSelect, null, null, false, false, 0) {
+
+				@Override
+				public List<InvoiceLine> creates() throws AxelorException {
+					InvoiceLine invoiceLine = this.createInvoiceLine();
+					invoiceLine = service.computeValues(invoice, invoiceLine);
+					List<InvoiceLine> invoiceLines = new ArrayList<InvoiceLine>();
+					invoiceLines.add(invoiceLine);
+					return invoiceLines;
+				}
+			};
+
+			invoiceLineList.addAll(invoiceLineGenerator.creates());
+		}
+
 		invoice.setInvoiceLineList(invoiceLineList);
 		invoice = invoiceService.compute(invoice);
-		return invoice;				
+		Beans.get(InvoiceRepository.class).save(invoice);
+		return invoice;
 	}
 
-	
 }

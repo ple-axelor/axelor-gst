@@ -1,5 +1,6 @@
 package com.axelor.apps.gst.web;
 
+import java.util.List;
 import java.util.Map;
 
 import com.axelor.apps.account.db.Invoice;
@@ -10,6 +11,7 @@ import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PartnerAddress;
 import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.db.repo.PartnerRepository;
+import com.axelor.apps.gst.service.InvoiceService;
 import com.axelor.apps.supplychain.service.app.AppSupplychainService;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
@@ -20,14 +22,12 @@ import com.axelor.rpc.ActionResponse;
 public class PartnerWizardController {
 
 	public void invoiceView(ActionRequest request, ActionResponse response) throws AxelorException {
-	
+
 		if (request.getContext().get("productIds") == null) {
 			response.setError("Please Select Atleast One Record");
 		} else {
 			if (request.getContext().get("partner") != null) {
-				Map<?, ?> partnerMap = (Map<?, ?>) request.getContext().get("partner");
-				Partner partner = Beans.get(PartnerRepository.class)
-						.find(Long.parseLong(partnerMap.get("id").toString()));
+				Partner partner = (Partner) request.getContext().get("partner");
 
 				if (partner.getPartnerAddressList() != null) {
 					PartnerAddress invoiceAddress = null;
@@ -42,24 +42,38 @@ public class PartnerWizardController {
 
 						if (invoiceAddress.getAddress().getState() != null) {
 							if (request.getContext().get("company") != null) {
-								Map<?, ?> companyMap = (Map<?, ?>) request.getContext().get("company");
-								Company company = Beans.get(CompanyRepository.class)
-										.find(Long.parseLong(companyMap.get("id").toString()));
+								Company company = (Company) request.getContext().get("company");
 
 								if (company.getAddress() != null) {
 									if (company.getAddress().getState() != null) {
 										Long partnerId = partner.getId();
 										request.getContext().put("partnerId", partnerId);
-																				
+
 										Long companyId = company.getId();
 										request.getContext().put("companyId", companyId);
-										response.setView(ActionView.define("Invoice").model(Invoice.class.getName())
-												.add("form", "invoice-form")
-												.context("product_ids", request.getContext().get("productIds"))
-												.context("partner_id", request.getContext().get("partnerId"))
-												.context("company_id", request.getContext().get("companyId"))
-												.context("_operationTypeSelect", InvoiceRepository.OPERATION_TYPE_CLIENT_SALE)
-												.context("todayDate", Beans.get(AppSupplychainService.class).getTodayDate()).map());
+										List<Integer> productIdList = (List<Integer>) request.getContext()
+												.get("productIds");
+										Invoice invoice = request.getContext().asType(Invoice.class);
+										try {
+											Invoice invoiceObject = Beans.get(InvoiceService.class)
+													.setInvoiceData(invoice, productIdList, partnerId, companyId);
+											if (invoiceObject != null) {
+												response.setView(ActionView.define("Invoice")
+														.model(Invoice.class.getName()).add("form", "invoice-form")
+														.add("grid", "invoice-grid")
+														.context("_operationTypeSelect",
+																InvoiceRepository.OPERATION_TYPE_CLIENT_SALE)
+														.context("todayDate",
+																Beans.get(AppSupplychainService.class).getTodayDate())
+														.context("_showRecord", String.valueOf(invoiceObject.getId()))
+														.map());
+												response.setCanClose(true);
+											}
+										} catch (Exception e) {
+											// TODO: handle exception
+											response.setFlash(e.getLocalizedMessage());
+										}
+
 									} else {
 										response.setError("Please fill state in company Address");
 									}
@@ -86,6 +100,5 @@ public class PartnerWizardController {
 				response.setError("Please select Party");
 			}
 		}
-		response.setCanClose(true);
 	}
 }
