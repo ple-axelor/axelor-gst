@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<action-record name="action-method-gst-chart-set-date"
+		model="com.axelor.apps.account.db.Invoice">
+		<field name="toDateTime" expr="eval: __date__.withDayOfMonth(1)" />
+		<field name="fromDateTime" expr="eval:__date__" />
+	</action-record>
+
+	<chart name="chart.gst.unpaid.invoice.per.customer" title="Unpaid invoice per customer"
+		onInit="action-method-gst-chart-set-date">
+		<search-fields>
+			<field type="date" name="toDateTime" title="To Date" />
+			<field type="date" name="fromDateTime" title="From Date" />
+		</search-fields>
+		<dataset type="sql"> 
+  			<![CDATA[
+  				select count(ai.status_select) as invoices,bp.name as name from account_invoice ai,base_partner bp 
+				where ai.partner=bp.id and ai.status_select in (1,2,3) and bp.is_customer='t'
+				and DATE(ai.invoice_date) between DATE(:toDateTime) and DATE(:fromDateTime)
+				group by bp.name;
+  			]]>
+  		</dataset>
+		<category key="name" />
+		<series key="invoices" type="bar" />
+	</chart>
+
+	<chart name="chart.gst.paid.invoice.per.category.per.product"
+		title="Paid invoice per category per product" onInit="action-method-gst-chart-set-date">
+		<search-fields>
+			<field type="date" name="toDateTime" title="To Date" />
+			<field type="date" name="fromDateTime" title="From Date" />
+		</search-fields>
+		<dataset type="sql"> 
+  			<![CDATA[
+  				select count(ail.product_name) as itemcount, ail.product_name as itemname, bpc.name as name from account_invoice_line as ail, 
+				account_invoice as ai, base_product_category as bpc ,base_product as bp
+				where ai.status_select  = 3 and ail.invoice = ai.id and ail.product = bp.id and bp.product_category = bpc.id
+				and DATE(ai.invoice_date) between DATE(:toDateTime) and DATE(:fromDateTime)
+				group by ail.product_name, bpc.name;
+  			]]>
+  		</dataset>
+		<category key="name" />
+		<series key="itemcount" groupBy="itemname" type="bar" />
+	</chart>
+
+	<chart name="chart.gst.customer.per.state" title="Customer Per State">
+		<dataset type="sql"> 
+  			<![CDATA[  				
+  				select count(bp.is_customer) as customercount, gs.name as name from base_partner as bp, 
+				base_partner_address as bpa, gst_state as gs, base_address as ba 
+				where is_customer='t' and bpa.partner = bp.id and bpa.address = ba.id and 
+				ba.state = gs.id group by gs.name;
+  			]]>
+  		</dataset>
+		<category key="name" />
+		<series key="customercount" type="pie" />
+	</chart>
+
+	<chart name="chart.gst.invoice.per.status.amount" title="Invoice Per Status Amount">
+		<dataset type="sql"> 
+  			<![CDATA[
+  
+  				select sum(ai.in_tax_total ) as amount,ai.status_select as status, msi.title as title from account_invoice as ai 
+				INNER JOIN meta_select_item as msi ON ai.status_select = msi.order_seq and msi.select_id=125  group by ai.status_select, msi.title;
+  				
+  			]]>
+  		</dataset>
+		<category key="title" />
+		<series key="amount" type="bar" />
+	</chart>
+
+	<chart name="chart.gst.invoice.per.status.number.of.invoice"
+		title="Invoice Per Status Number Of Invoice">
+		<dataset type="sql"> 
+  			<![CDATA[
+  				select count(ai.status_select) as statuscount,ai.status_select as status from account_invoice as ai group by ai.status_select;
+  			]]>
+  		</dataset>
+		<category key="status" type="text" />
+		<series key="statuscount" groupBy="status" type="line" />
+	</chart>
+
+	<action-view name="older-invoice" model="com.axelor.apps.account.db.Invoice" title="Older Invoices">
+  		<view name="invoice-grid" type="grid"/>
+  		<domain>self.invoiceDate &lt;= :_date </domain>
+  		<context name="_date" expr="eval: __datetime__.minusMonths(1)"/>
+	</action-view>
+
+
+</object-views>
+
