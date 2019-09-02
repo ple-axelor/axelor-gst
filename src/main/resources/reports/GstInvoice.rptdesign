@@ -5637,14 +5637,11 @@ row["partnerFirstName"]
                                                     </label>
                                                 </cell>
                                                 <cell id="5380">
-                                                    <data id="5405">
-                                                        <structure name="numberFormat">
-                                                            <property name="category">Custom</property>
-                                                            <property name="pattern">#0.00</property>
-                                                        </structure>
+                                                    <text id="5422">
                                                         <property name="textAlign">right</property>
-                                                        <property name="resultSetColumn">Column Binding</property>
-                                                    </data>
+                                                        <property name="contentType">html</property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["net_igst"]</VALUE-OF>]]></text-property>
+                                                    </text>
                                                 </cell>
                                                 <cell id="5410">
                                                     <property name="borderRightStyle">solid</property>
@@ -5664,14 +5661,11 @@ row["partnerFirstName"]
                                                     </label>
                                                 </cell>
                                                 <cell id="5383">
-                                                    <data id="5406">
-                                                        <structure name="numberFormat">
-                                                            <property name="category">Custom</property>
-                                                            <property name="pattern">#0.00</property>
-                                                        </structure>
+                                                    <text id="5423">
                                                         <property name="textAlign">right</property>
-                                                        <property name="resultSetColumn">Column Binding_1</property>
-                                                    </data>
+                                                        <property name="contentType">html</property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["net_sgst"]</VALUE-OF>]]></text-property>
+                                                    </text>
                                                 </cell>
                                                 <cell id="5411">
                                                     <property name="borderRightStyle">solid</property>
@@ -5691,14 +5685,11 @@ row["partnerFirstName"]
                                                     </label>
                                                 </cell>
                                                 <cell id="5386">
-                                                    <data id="5407">
-                                                        <structure name="numberFormat">
-                                                            <property name="category">Custom</property>
-                                                            <property name="pattern">#0.00</property>
-                                                        </structure>
+                                                    <text id="5424">
                                                         <property name="textAlign">right</property>
-                                                        <property name="resultSetColumn">Column Binding_2</property>
-                                                    </data>
+                                                        <property name="contentType">html</property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["net_cgst"]</VALUE-OF>]]></text-property>
+                                                    </text>
                                                 </cell>
                                                 <cell id="5412">
                                                     <property name="borderRightStyle">solid</property>
@@ -5724,14 +5715,16 @@ row["partnerFirstName"]
                                                 </cell>
                                                 <cell id="5389">
                                                     <property name="textAlign">right</property>
-                                                    <data id="5409">
+                                                    <text id="5427">
                                                         <property name="fontWeight">bold</property>
-                                                        <structure name="numberFormat">
-                                                            <property name="category">Custom</property>
-                                                            <property name="pattern">#0.00</property>
-                                                        </structure>
-                                                        <property name="resultSetColumn">Aggregation_1</property>
-                                                    </data>
+                                                        <property name="contentType">html</property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">
+if(row["net_igst"] != 0)
+	row["net_igst"]
+else
+	row["net_cgst"]+row["net_sgst"]
+</VALUE-OF>]]></text-property>
+                                                    </text>
                                                 </cell>
                                                 <cell id="5413">
                                                     <property name="borderRightStyle">solid</property>

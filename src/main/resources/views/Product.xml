@@ -8,6 +8,7 @@
         	<button name="catalogBtn" title="Catalog" onClick="action-print-product-catalog" icon="fa-book"/>
 			<button name="checkDuplicateBtn" title="Check Duplicate" onClick="action-general-check-duplicate-records"/>
 			<button name="createInvoice" icon="fa-print" onClick="action-product-view-button-create-invoice-on-click" title="Create Invoice" />
+			<button name="print" icon="fa-print" onClick="action-product-method-report-button" title="Report" />
 	    </toolbar>
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}" width="120"/>
 	    <field name="name" width="300"/>
@@ -313,5 +314,9 @@
 		<context name="productIds" expr="eval: _ids"/>
 		<context name="_operationTypeSelect" expr="eval: 3"/>
 	</action-view>
+	
+	<action-method name="action-product-method-report-button">
+		<call class="com.axelor.apps.gst.web.ProductController" method="Report"/>
+	</action-method>
 		
 </object-views>
