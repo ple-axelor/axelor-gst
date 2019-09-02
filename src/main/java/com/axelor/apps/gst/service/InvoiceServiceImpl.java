@@ -52,7 +52,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		Partner partner = Beans.get(PartnerRepository.class).find(partnerId);
 		Address address = Beans.get(PartnerService.class).getInvoicingAddress(partner);
 		List<InvoiceLine> invoiceLineList = new ArrayList<>();
-
+		
 		Partner partnerContact = null;
 		if (partner.getContactPartnerSet() != null) {
 			for (Partner partnerContactObject : partner.getContactPartnerSet()) {

@@ -20,16 +20,11 @@ public class InvoiceLineControllerGst {
     if (invoice.getAddress().getState() != null) {
       if (invoice.getCompany().getAddress() != null) {
         if (invoice.getCompany().getAddress().getState() != null) {
-          if (invoice.getAddress() != null) {
+          if (invoice.getCompany().getAddress().getState() != null) {
             InvoiceLine invoiceLineObject = invoiceLineService.computeValues(invoice, invoiceLine);
             response.setValues(invoiceLineObject);
-            /*response.setValue("igst", invoiceLine.getIgst());
-            response.setValue("sgst", invoiceLine.getSgst());
-            response.setValue("cgst", invoiceLine.getCgst());
-            response.setValue("gstRate", invoiceLine.getGstRate());
-            response.setValue("hsbn", invoiceLine.getHsbn());*/
           } else {
-            throw new AxelorException(1, "Please Fill Invoice Address State");
+            throw new AxelorException(1, "Company's State field is missing");
           }
         } else {
           throw new AxelorException(1, "Please Fill Invoice Address");
