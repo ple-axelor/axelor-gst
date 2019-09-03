@@ -17,9 +17,9 @@ public class InvoiceLineControllerGst {
     InvoiceLine invoiceLine = request.getContext().asType(InvoiceLine.class);
     Invoice invoice = request.getContext().getParent().asType(Invoice.class);
 
-    if (invoice.getAddress().getState() != null) {
-      if (invoice.getCompany().getAddress() != null) {
-        if (invoice.getCompany().getAddress().getState() != null) {
+    if (invoice.getAddress() != null) {
+      if (invoice.getAddress().getState() != null) {
+        if (invoice.getCompany().getAddress() != null) {
           if (invoice.getCompany().getAddress().getState() != null) {
             InvoiceLine invoiceLineObject = invoiceLineService.computeValues(invoice, invoiceLine);
             response.setValues(invoiceLineObject);
@@ -27,13 +27,13 @@ public class InvoiceLineControllerGst {
             throw new AxelorException(1, "Company's State field is missing");
           }
         } else {
-          throw new AxelorException(1, "Please Fill Invoice Address");
+          throw new AxelorException(1, "Please Fill Company Address");
         }
       } else {
-        throw new AxelorException(1, "Company's State field is missing");
+        throw new AxelorException(1, "Partner's State field is missing");
       }
     } else {
-      throw new AxelorException(1, "Company's Address field is missing");
+      throw new AxelorException(1, "Partner's Address field is missing");
     }
   }
 }
