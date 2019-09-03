@@ -19,7 +19,7 @@
 		<dataset type="sql"> 
   			<![CDATA[
   				select count(ai.status_select) as invoices,bp.name as name from account_invoice ai,base_partner bp 
-				where ai.partner=bp.id and ai.status_select in (1,2,3) and bp.is_customer='t'
+				where ai.partner=bp.id and ai.status_select in (1,2,4) and bp.is_customer='t'
 				and DATE(ai.invoice_date) between DATE(:toDateTime) and DATE(:fromDateTime)
 				group by bp.name;
   			]]>
@@ -65,7 +65,7 @@
   			<![CDATA[
   
   				select sum(ai.in_tax_total ) as amount,ai.status_select as status, msi.title as title from account_invoice as ai 
-				INNER JOIN meta_select_item as msi ON ai.status_select = msi.order_seq and msi.select_id=125  group by ai.status_select, msi.title;
+  				INNER JOIN meta_select_item as msi ON ai.status_select = cast(msi.value as int) and msi.select_id=125  group by ai.status_select, msi.title;
   				
   			]]>
   		</dataset>
@@ -86,7 +86,7 @@
 
 	<action-view name="older-invoice" model="com.axelor.apps.account.db.Invoice" title="Older Invoices">
   		<view name="invoice-grid" type="grid"/>
-  		<domain>self.invoiceDate &lt;= :_date </domain>
+  		<domain>self.invoiceDate &lt;= :_date and self.statusSelect in ('1','2','4')</domain>
   		<context name="_date" expr="eval: __datetime__.minusMonths(1)"/>
 	</action-view>
 
