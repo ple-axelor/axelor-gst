@@ -118,8 +118,10 @@
 		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.statusSelect= :status</domain>
+		<domain>self.statusSelect= :status and self.operationTypeSelect = 3</domain>
   		<context name="status" expr="1"/>
+  		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="Validated Invoices" name="gst-root-invoice-validated-invoices"
@@ -129,8 +131,10 @@
 		title="Validated Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.statusSelect= :status</domain>
-  <context name="status" expr="2"/>
+		<domain>self.statusSelect= :status and self.operationTypeSelect = 3</domain>
+  		<context name="status" expr="2"/>
+  		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="Paid Invoices" name="gst-root-invoice-paid-invoices"
@@ -140,8 +144,10 @@
 		model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.statusSelect= :status</domain>
+		<domain>self.statusSelect= :status and self.operationTypeSelect = 3</domain>
   		<context name="status" expr="3"/>
+  		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="Cancelled Invoices" name="gst-root-invoice-cancelled-invoices"
@@ -151,8 +157,10 @@
 		title="cancelled Invoices" model="com.axelor.apps.account.db.Invoice">
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
-		<domain>self.statusSelect= :status</domain>
-  <context name="status" expr="4"/>
+		<domain>self.statusSelect= :status and self.operationTypeSelect = 3</domain>
+  		<context name="status" expr="4"/>
+  		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="All Invoices" name="gst-root-invoice-all-invoices"
@@ -163,6 +171,8 @@
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<view type="kanban" name="invoice-kanban" />
+		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate()" />
 	</action-view>
 
 	<menuitem title="Comapny" name="gst-root-company" parent="gst-root" />
