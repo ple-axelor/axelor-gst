@@ -24,16 +24,16 @@ public class InvoiceLineControllerGst {
             InvoiceLine invoiceLineObject = invoiceLineService.computeValues(invoice, invoiceLine);
             response.setValues(invoiceLineObject);
           } else {
-            throw new AxelorException(1, "Company's State field is missing");
+            throw new AxelorException(1, "Please fill state in company Address");
           }
         } else {
-          throw new AxelorException(1, "Please Fill Company Address");
+          throw new AxelorException(1, "Please fill address in company Address");
         }
       } else {
-        throw new AxelorException(1, "Partner's State field is missing");
+        throw new AxelorException(1, "Please fill state in invoice Address");
       }
     } else {
-      throw new AxelorException(1, "Partner's Address field is missing");
+      throw new AxelorException(1, "Please fill Invoice address of Partner");
     }
   }
 }

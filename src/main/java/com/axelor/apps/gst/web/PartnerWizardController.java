@@ -11,9 +11,12 @@ import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PartnerAddress;
 import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.db.repo.PartnerRepository;
+import com.axelor.apps.gst.report.IReport;
+import com.axelor.apps.gst.report.ITranslation;
 import com.axelor.apps.gst.service.InvoiceService;
 import com.axelor.apps.supplychain.service.app.AppSupplychainService;
 import com.axelor.exception.AxelorException;
+import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
@@ -24,7 +27,7 @@ public class PartnerWizardController {
 	public void invoiceView(ActionRequest request, ActionResponse response) throws AxelorException {
 
 		if (request.getContext().get("productIds") == null) {
-			response.setError("Please Select Atleast One Record");
+			response.setError(I18n.get(ITranslation.RECORD_MISSING));
 		} else {
 			if (request.getContext().get("partner") != null) {
 				Partner partner = (Partner) request.getContext().get("partner");
@@ -75,29 +78,29 @@ public class PartnerWizardController {
 										}
 
 									} else {
-										response.setError("Please fill state in company Address");
+										response.setError(I18n.get(ITranslation.COMPANY_STATE_MISSING));
 									}
 
 								} else {
-									response.setError("Please fill address in company Address");
+									response.setError(I18n.get(ITranslation.COMPANY_ADDRESS_MISSING));
 								}
 							} else {
-								response.setError("Please Select Company");
+								response.setError(I18n.get(ITranslation.COMPANY_MISSING));
 							}
 						} else {
-							response.setError("Please fill state in invoice Address");
+							response.setError(I18n.get(ITranslation.PARTNER_ADDRESS_STATE_MISSING));
 						}
 
 					} else {
-						response.setError("Please fill Invoice address of Partner");
+						response.setError(I18n.get(ITranslation.PARTNER_INVOICE_ADDRESS_MISSING));
 					}
 
 				} else {
-					response.setError("Please Fill Address of Party");
+					response.setError(I18n.get(ITranslation.PARTNER_ADDRESS_MISSING));
 				}
 
 			} else {
-				response.setError("Please select Party");
+				response.setError(I18n.get(ITranslation.PARTNER_MISSING));
 			}
 		}
 	}
