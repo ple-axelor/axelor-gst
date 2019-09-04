@@ -6,7 +6,6 @@ import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
-import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
 import com.axelor.apps.account.service.invoice.factory.CancelFactory;
 import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
@@ -20,24 +19,38 @@ import java.math.BigDecimal;
 public class InvoiceServiceImplGst extends InvoiceServiceProjectImpl {
 
   @Inject
-  public InvoiceServiceImplGst(ValidateFactory validateFactory, VentilateFactory ventilateFactory,
-			CancelFactory cancelFactory, AlarmEngineService<Invoice> alarmEngineService, InvoiceRepository invoiceRepo,
-			AppAccountService appAccountService, PartnerService partnerService, InvoiceLineService invoiceLineService,
-			AccountConfigService accountConfigService) {
-		super(validateFactory, ventilateFactory, cancelFactory, alarmEngineService, invoiceRepo, appAccountService,
-				partnerService, invoiceLineService, accountConfigService);
-		// TODO Auto-generated constructor stub
-	}
+  public InvoiceServiceImplGst(
+      ValidateFactory validateFactory,
+      VentilateFactory ventilateFactory,
+      CancelFactory cancelFactory,
+      AlarmEngineService<Invoice> alarmEngineService,
+      InvoiceRepository invoiceRepo,
+      AppAccountService appAccountService,
+      PartnerService partnerService,
+      InvoiceLineService invoiceLineService,
+      AccountConfigService accountConfigService) {
+    super(
+        validateFactory,
+        ventilateFactory,
+        cancelFactory,
+        alarmEngineService,
+        invoiceRepo,
+        appAccountService,
+        partnerService,
+        invoiceLineService,
+        accountConfigService);
+    // TODO Auto-generated constructor stub
+  }
 
-@Override
+  @Override
   public Invoice compute(final Invoice invoice) throws AxelorException {
-	
-	super.compute(invoice);
-	
+
+    super.compute(invoice);
+
     invoice.setNetIgst(BigDecimal.ZERO);
     invoice.setNetCgst(BigDecimal.ZERO);
     invoice.setNetSgst(BigDecimal.ZERO);
-    
+
     if (invoice.getInvoiceLineList() != null) {
       for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
         invoice.setNetIgst(invoice.getNetIgst().add(invoiceLine.getIgst()));

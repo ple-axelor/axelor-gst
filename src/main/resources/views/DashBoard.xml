@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<dashboard name="welcome.dashboard" title="Welcome!">
+	<dashboard name="gst.dashboard" title="Welcome!">
 		<dashlet action="chart:chart.gst.unpaid.invoice.per.customer" colSpan="4" />
-<!-- 		<dashlet action="chart:chart.gst.paid.invoice.per.category.per.product" colSpan="4" />
+		<dashlet action="chart:chart.gst.paid.invoice.per.category.per.product" colSpan="4" />
 		<dashlet action="chart:chart.gst.customer.per.state" colSpan="4"/>
 		<dashlet action="chart:chart.gst.invoice.per.status.amount" colSpan="4"/>
 		<dashlet action="chart:chart.gst.invoice.per.status.number.of.invoice" colSpan="4"/>
-		<dashlet action="older-invoice" colSpan="4"/> -->
+		<dashlet action="older-invoice" colSpan="4"/>
 	</dashboard>
 
 </object-views>
